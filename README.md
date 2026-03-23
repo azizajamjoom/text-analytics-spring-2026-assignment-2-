@@ -1,120 +1,161 @@
-# Sentiment Analysis on IMDB Reviews
+# Sentiment Analysis on IMDb Reviews  
 
-## Project Overview
-This project builds a machine learning pipeline to classify movie reviews as **positive** or **negative** using natural language processing (NLP) techniques.
-
-The goal is to evaluate different models and feature engineering methods, compare their performance, and test how well the best model generalizes to new, unseen data.
-
----
-
-## Dataset
-- **Dataset:** IMDB Movie Reviews
-- **Size:** 50,000 reviews
-- **Classes:** Balanced (positive / negative)
-
-The dataset used for this project is included in this repository:
-
- `IMDB Dataset.csv`
+**Student Name:** Aziza Jamjoom  
+**Date:** March 2026  
+**Dataset:** IMDb Movie Reviews  
 
 ---
 
-## Project Steps
+## Overview  
 
-### Step 1: Obtain Data
-- Loaded IMDB dataset into the environment
+This project builds a **binary text classification model** to classify movie reviews as either **positive (1)** or **negative (0)**.  
 
-### Step 2: Exploratory Data Analysis (EDA)
-- Checked class distribution
-- Analyzed review length
-- Visualized distributions
-
-### Step 3: Text Cleaning
-- Removed HTML tags
-- Removed extra spaces
-- Standardized text formatting
-
-### Step 4: Tokenization & Feature Engineering
-- Used:
-  - **CountVectorizer**
-  - **TF-IDF Vectorizer**
-- Included unigrams and bigrams
-- Limited to top 5,000 features
+The goal is to develop a model that can accurately interpret sentiment in text data and generalize to new, unseen examples. This type of model can be applied to real-world use cases such as customer feedback analysis, brand monitoring, and content moderation.
 
 ---
 
-### Step 5: Train Models
-Models trained:
-- Logistic Regression + Count
-- Logistic Regression + TF-IDF
-- Naive Bayes + Count
-- Naive Bayes + TF-IDF
+## Dataset Details  
 
-Additional steps:
-- Stratified train-test split (80/20)
-- Hyperparameter tuning using GridSearchCV
-- Model performance evaluation
+- **Source:** IMDb Reviews Dataset  
+- **Size:** 50,000 reviews  
+- **Classes:**  
+  - Positive (1): 25,000  
+  - Negative (0): 25,000  
+- **Distribution:** Balanced (50/50 split)  
 
----
-
-### Step 6: Evaluate & Compare
-
-Evaluation methods:
-- Classification reports
-- Confusion matrices
-- Model comparison table
-
-**Best Model: Logistic Regression + TF-IDF**
-- Accuracy: **0.8951**
-- F1 Score: **0.8956**
+The dataset contains raw text reviews that require preprocessing before being used for machine learning.
 
 ---
 
-### Step 7: Custom Inference
+## Dataset Download 
 
-- Created 20 new examples:
-  - 10 easy
-  - 5 tricky (mixed sentiment, ambiguity)
-  - 5 out-of-domain (TV, podcasts, etc.)
+Due to GitHub file size limitations, the dataset is **not stored directly in this repository**.
 
-- Ran inference using the best model
+ Download the dataset here:  
+https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews  
 
-Results:
-- Correct predictions: **17 / 20**
-- Accuracy: **0.85**
-
-Insight:
-- Strong performance on clear sentiment
-- Struggles with mixed or ambiguous language
-- Reasonable generalization to new domains
+Alternatively, you can find the link inside the `/data` file in this repository.
 
 ---
 
-## Key Takeaways
-- TF-IDF outperformed CountVectorizer
-- Logistic Regression outperformed Naive Bayes
-- Model handles clear sentiment well but struggles with nuance
-- Generalization is good but not perfect
+## Setup Instructions (Google Colab)   
+
+Follow these steps before running the notebook:
+
+1. Download the dataset from the link  
+2. Extract the dataset file (if zipped)  
+3. Open the notebook in **Google Colab**  
+4. Upload the dataset file:
+   - Click **"Files" → Upload**
+   - Select the dataset file (CSV)
+
+5. Ensure the file path in the notebook matches the uploaded file  
+
+6. Run all cells from top to bottom  
+
+ The notebook will not run correctly unless the dataset is uploaded first.
 
 ---
 
-## How to Run This Project
+## Modeling Approach  
 
-### Option 1: Google Colab (Recommended)
-1. Upload the notebook to **Google Colab**
-2. Upload the dataset file:
-   - `IMDB Dataset.csv`
-3. Run all cells step-by-step
+- **Preprocessing:**  
+  - Removed HTML tags  
+  - Removed extra spaces  
 
-**Important:**  
-This project is designed to run in **Google Colab**, so make sure to upload both:
-- The notebook file
-- The dataset file
+- **Feature Engineering:**  
+  - Count Vectorization  
+  - TF-IDF Vectorization  
+
+- **Models Tested:**  
+  - Logistic Regression  
+  - Naive Bayes  
+
+- **Hyperparameter Tuning:**  
+  - GridSearchCV used for optimization  
 
 ---
 
-### Option 2: Local Environment
-Requirements:
-- Python 3.x
-- pandas
-- numpy
-- scikit
+## Best Model Results  
+
+**Best Model:** Logistic Regression + TF-IDF  
+
+| Metric        | Value   |
+|--------------|--------|
+| Accuracy      | 0.895 |
+| Precision     | 0.89  |
+| Recall        | 0.90  |
+| F1 Score      | 0.896 |
+| Training Time | Fast (efficient linear model) |
+
+---
+
+## Important Class / Label  
+
+Although the dataset is balanced, **negative sentiment is more critical from a business perspective**.  
+
+Missing negative reviews (missed detections) can hide customer dissatisfaction and delay necessary action. Therefore, recall for the negative class is especially important.
+
+---
+
+## Model Comparison (5 Criteria)  
+
+| Model            | Accuracy | F1 Score | Interpretability | Speed | Generalization |
+|------------------|----------|----------|------------------|-------|----------------|
+| LR + TF-IDF      | **0.895** | **0.896** | High             | Fast  | Strong         |
+| LR + Count       | 0.878    | 0.878    | High             | Fast  | Good           |
+| NB + TF-IDF      | 0.860    | 0.863    | Medium           | Very Fast | Moderate     |
+| NB + Count       | 0.839    | 0.839    | Medium           | Very Fast | Weak         |
+
+---
+
+## Custom Inference Summary  
+
+- **Correct Predictions:** 17 / 20  
+- **Custom Accuracy:** 85%  
+
+### Key Findings:
+- Strong performance on **clear sentiment examples**  
+- Errors occurred in:
+  - **Tricky examples** (mixed sentiment, ambiguity)  
+  - **Out-of-domain examples** (e.g., podcasts, documentaries)  
+
+---
+
+## Recommendation  
+
+ **Recommended Model:** Logistic Regression + TF-IDF  
+
+### Justification:
+- Highest F1 score and accuracy  
+- Balanced performance across both classes  
+- Interpretable and efficient  
+- Strong generalization to new data  
+
+### Business Impact:
+- Enables scalable sentiment monitoring  
+- Helps identify customer dissatisfaction early  
+- Supports data-driven decision making  
+
+---
+
+## Limitations  
+
+- Struggles with:
+  - Mixed sentiment (e.g., “good acting but bad plot”)  
+  - Sarcasm and ambiguous language  
+- Slight drop in performance on out-of-domain data  
+
+### Future Improvements:
+- Use transformer-based models (e.g., BERT)  
+- Train on more diverse datasets  
+- Implement continuous retraining  
+
+---
+
+
+---
+
+## Final Note  
+
+This project demonstrates a complete machine learning pipeline for text classification, including preprocessing, feature engineering, model comparison, evaluation, and real-world testing through custom inference.
